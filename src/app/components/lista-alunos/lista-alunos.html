@@ -1,0 +1,27 @@
+<div class="botao-cadastro">
+    <a routerLink="/alunos/cadastro">cadastro</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>nome</th>
+            <th>media</th>
+            <th>frequencia</th>
+            <th>status</th>
+            <th></th>
+        </tr>
+    </thead>
+
+<tbody>
+    @for(aluno of alunos; track aluno) {
+        <tr>
+            <td>{aluno.nome</td>
+                <td>aluno.media</td>
+                <td>{{aluno;frequencia}}%</td>
+                <td>{{aluno.status}}</td>
+                <td></td>
+        </tr>
+    }}
+</tbody>
+</table>
