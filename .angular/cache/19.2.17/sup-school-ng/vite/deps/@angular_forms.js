@@ -1,10 +1,8 @@
 import {
   getDOM
-} from "./chunk-FLER7ODA.js";
+} from "./chunk-TQ2UH2N7.js";
 import {
-  ApplicationRef,
   ChangeDetectorRef,
-  DestroyRef,
   Directive,
   ElementRef,
   EventEmitter,
@@ -23,7 +21,8 @@ import {
   SkipSelf,
   Subject,
   Version,
-  afterNextRender,
+  __spreadProps,
+  __spreadValues,
   booleanAttribute,
   computed,
   forkJoin,
@@ -48,11 +47,7 @@ import {
   ɵɵdirectiveInject,
   ɵɵgetInheritedFactory,
   ɵɵlistener
-} from "./chunk-NLZIVNDD.js";
-import {
-  __spreadProps,
-  __spreadValues
-} from "./chunk-WDMUDEB6.js";
+} from "./chunk-O3LGEELE.js";
 
 // node_modules/@angular/forms/fesm2022/forms.mjs
 var BaseControlValueAccessor = class _BaseControlValueAccessor {
@@ -179,7 +174,7 @@ var CheckboxControlValueAccessor = class _CheckboxControlValueAccessor extends B
     args: [{
       selector: "input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]",
       host: {
-        "(change)": "onChange($any($event.target).checked)",
+        "(change)": "onChange($event.target.checked)",
         "(blur)": "onTouched()"
       },
       providers: [CHECKBOX_VALUE_ACCESSOR],
@@ -263,10 +258,10 @@ var DefaultValueAccessor = class _DefaultValueAccessor extends BaseControlValueA
       // https://github.com/angular/angular/issues/3011 is implemented
       // selector: '[ngModel],[formControl],[formControlName]',
       host: {
-        "(input)": "_handleInput($any($event.target).value)",
+        "(input)": "$any(this)._handleInput($event.target.value)",
         "(blur)": "onTouched()",
-        "(compositionstart)": "_compositionStart()",
-        "(compositionend)": "_compositionEnd($any($event.target).value)"
+        "(compositionstart)": "$any(this)._compositionStart()",
+        "(compositionend)": "$any(this)._compositionEnd($event.target.value)"
       },
       providers: [DEFAULT_VALUE_ACCESSOR],
       standalone: false
@@ -1565,12 +1560,8 @@ var AbstractControl = class {
     untracked(() => this.statusReactive.set(v));
   }
   /** @internal */
-  _status = computed(() => this.statusReactive(), ...ngDevMode ? [{
-    debugName: "_status"
-  }] : []);
-  statusReactive = signal(void 0, ...ngDevMode ? [{
-    debugName: "statusReactive"
-  }] : []);
+  _status = computed(() => this.statusReactive());
+  statusReactive = signal(void 0);
   /**
    * A control is `valid` when its `status` is `VALID`.
    *
@@ -1649,12 +1640,8 @@ var AbstractControl = class {
     untracked(() => this.pristineReactive.set(v));
   }
   /** @internal */
-  _pristine = computed(() => this.pristineReactive(), ...ngDevMode ? [{
-    debugName: "_pristine"
-  }] : []);
-  pristineReactive = signal(true, ...ngDevMode ? [{
-    debugName: "pristineReactive"
-  }] : []);
+  _pristine = computed(() => this.pristineReactive());
+  pristineReactive = signal(true);
   /**
    * A control is `dirty` if the user has changed the value
    * in the UI.
@@ -1678,12 +1665,8 @@ var AbstractControl = class {
     untracked(() => this.touchedReactive.set(v));
   }
   /** @internal */
-  _touched = computed(() => this.touchedReactive(), ...ngDevMode ? [{
-    debugName: "_touched"
-  }] : []);
-  touchedReactive = signal(false, ...ngDevMode ? [{
-    debugName: "touchedReactive"
-  }] : []);
+  _touched = computed(() => this.touchedReactive());
+  touchedReactive = signal(false);
   /**
    * True if the control has not been marked as touched
    *
@@ -1913,24 +1896,6 @@ var AbstractControl = class {
     }
   }
   /**
-   * Marks the control and all its descendant controls as `dirty`.
-   * @see {@link markAsDirty()}
-   *
-   * @param opts Configuration options that determine how the control propagates changes
-   * and emits events after marking is applied.
-   * * `emitEvent`: When true or not supplied (the default), the `events`
-   * observable emits a `PristineChangeEvent` with the `pristine` property being `false`.
-   * When false, no events are emitted.
-   */
-  markAllAsDirty(opts = {}) {
-    this.markAsDirty({
-      onlySelf: true,
-      emitEvent: opts.emitEvent,
-      sourceControl: this
-    });
-    this._forEachChild((control) => control.markAllAsDirty(opts));
-  }
-  /**
    * Marks the control and all its descendant controls as `touched`.
    * @see {@link markAsTouched()}
    *
@@ -2136,8 +2101,7 @@ var AbstractControl = class {
     if (this.asyncValidator) {
       this.status = PENDING;
       this._hasOwnPendingAsyncValidator = {
-        emitEvent: emitEvent !== false,
-        shouldHaveEmitted: shouldHaveEmitted !== false
+        emitEvent: emitEvent !== false
       };
       const obs = toObservable(this.asyncValidator(this));
       this._asyncValidationSubscription = obs.subscribe((errors) => {
@@ -2152,7 +2116,7 @@ var AbstractControl = class {
   _cancelExistingSubscription() {
     if (this._asyncValidationSubscription) {
       this._asyncValidationSubscription.unsubscribe();
-      const shouldHaveEmitted = (this._hasOwnPendingAsyncValidator?.emitEvent || this._hasOwnPendingAsyncValidator?.shouldHaveEmitted) ?? false;
+      const shouldHaveEmitted = this._hasOwnPendingAsyncValidator?.emitEvent ?? false;
       this._hasOwnPendingAsyncValidator = null;
       return shouldHaveEmitted;
     }
@@ -2941,12 +2905,8 @@ var NgForm = class _NgForm extends ControlContainer {
     return untracked(this.submittedReactive);
   }
   /** @internal */
-  _submitted = computed(() => this.submittedReactive(), ...ngDevMode ? [{
-    debugName: "_submitted"
-  }] : []);
-  submittedReactive = signal(false, ...ngDevMode ? [{
-    debugName: "submittedReactive"
-  }] : []);
+  _submitted = computed(() => this.submittedReactive());
+  submittedReactive = signal(false);
   _directives = /* @__PURE__ */ new Set();
   /**
    * @description
@@ -3890,7 +3850,7 @@ var NumberValueAccessor = class _NumberValueAccessor extends BuiltInControlValue
     args: [{
       selector: "input[type=number][formControlName],input[type=number][formControl],input[type=number][ngModel]",
       host: {
-        "(input)": "onChange($any($event.target).value)",
+        "(input)": "onChange($event.target.value)",
         "(blur)": "onTouched()"
       },
       providers: [NUMBER_VALUE_ACCESSOR],
@@ -4163,8 +4123,8 @@ var RangeValueAccessor = class _RangeValueAccessor extends BuiltInControlValueAc
     args: [{
       selector: "input[type=range][formControlName],input[type=range][formControl],input[type=range][ngModel]",
       host: {
-        "(change)": "onChange($any($event.target).value)",
-        "(input)": "onChange($any($event.target).value)",
+        "(change)": "onChange($event.target.value)",
+        "(input)": "onChange($event.target.value)",
         "(blur)": "onTouched()"
       },
       providers: [RANGE_VALUE_ACCESSOR],
@@ -4403,12 +4363,8 @@ var FormGroupDirective = class _FormGroupDirective extends ControlContainer {
     this._submittedReactive.set(value);
   }
   /** @internal */
-  _submitted = computed(() => this._submittedReactive(), ...ngDevMode ? [{
-    debugName: "_submitted"
-  }] : []);
-  _submittedReactive = signal(false, ...ngDevMode ? [{
-    debugName: "_submittedReactive"
-  }] : []);
+  _submitted = computed(() => this._submittedReactive());
+  _submittedReactive = signal(false);
   /**
    * Reference to an old form group input value, which is needed to cleanup
    * old instance in case it was replaced with a new one.
@@ -4611,14 +4567,12 @@ var FormGroupDirective = class _FormGroupDirective extends ControlContainer {
    * @description
    * Resets the form to an initial value and resets its submitted status.
    *
-   * @param value The new value for the form, `undefined` by default
+   * @param value The new value for the form.
    */
-  resetForm(value = void 0, options = {}) {
-    this.form.reset(value, options);
+  resetForm(value = void 0) {
+    this.form.reset(value);
     this._submittedReactive.set(false);
-    if (options?.emitEvent !== false) {
-      this.form._events.next(new FormResetEvent(this.form));
-    }
+    this.form._events.next(new FormResetEvent(this.form));
   }
   /** @internal */
   _updateDomValue() {
@@ -5199,57 +5153,11 @@ var SelectControlValueAccessor = class _SelectControlValueAccessor extends Built
     this._compareWith = fn;
   }
   _compareWith = Object.is;
-  // We need this because we might be in the process of destroying the root
-  // injector, which is marked as destroyed before running destroy hooks.
-  // Attempting to use afterNextRender with the node injector would evntually
-  // run into that already destroyed injector.
-  appRefInjector = inject(ApplicationRef).injector;
-  destroyRef = inject(DestroyRef);
-  cdr = inject(ChangeDetectorRef);
-  _queuedWrite = false;
-  /**
-   * This is needed to efficiently set the select value when adding/removing options. If
-   * writeValue is instead called for every added/removed option, this results in exponentially
-   * more _compareValue calls than the number of option elements (issue #41330).
-   *
-   * Secondly, calling writeValue when rendering individual option elements instead of after they
-   * are all rendered caused an issue in Safari and IE 11 where the first option element failed
-   * to be deselected when no option matched the select ngModel. This was because Angular would
-   * set the select element's value property before appending the option's child text node to the
-   * DOM (issue #14505).
-   *
-   * Finally, this approach is necessary to avoid an issue with delayed element removal when
-   * using the animations module (in all browsers). Otherwise when a selected option is removed
-   * (so no option matches the ngModel anymore), Angular would change the select element value
-   * before actually removing the option from the DOM. Then when the option is finally removed
-   * from the DOM, the browser would change the select value to that of the first option, even
-   * though it doesn't match the ngModel (issue #18430).
-   *
-   * @internal
-   */
-  _writeValueAfterRender() {
-    if (this._queuedWrite || this.appRefInjector.destroyed) {
-      return;
-    }
-    this._queuedWrite = true;
-    afterNextRender({
-      write: () => {
-        if (this.destroyRef.destroyed) {
-          return;
-        }
-        this._queuedWrite = false;
-        this.writeValue(this.value);
-      }
-    }, {
-      injector: this.appRefInjector
-    });
-  }
   /**
    * Sets the "value" property on the select element.
    * @docs-private
    */
   writeValue(value) {
-    this.cdr.markForCheck();
     this.value = value;
     const id = this._getOptionId(value);
     const valueString = _buildValueString$1(id, value);
@@ -5312,7 +5220,7 @@ var SelectControlValueAccessor = class _SelectControlValueAccessor extends Built
     args: [{
       selector: "select:not([multiple])[formControlName],select:not([multiple])[formControl],select:not([multiple])[ngModel]",
       host: {
-        "(change)": "onChange($any($event.target).value)",
+        "(change)": "onChange($event.target.value)",
         "(blur)": "onTouched()"
       },
       providers: [SELECT_VALUE_ACCESSOR],
@@ -5348,7 +5256,7 @@ var NgSelectOption = class _NgSelectOption {
     if (this._select == null) return;
     this._select._optionMap.set(this.id, value);
     this._setElementValue(_buildValueString$1(this.id, value));
-    this._select._writeValueAfterRender();
+    this._select.writeValue(this._select.value);
   }
   /**
    * @description
@@ -5357,7 +5265,7 @@ var NgSelectOption = class _NgSelectOption {
    */
   set value(value) {
     this._setElementValue(value);
-    if (this._select) this._select._writeValueAfterRender();
+    if (this._select) this._select.writeValue(this._select.value);
   }
   /** @internal */
   _setElementValue(value) {
@@ -5367,7 +5275,7 @@ var NgSelectOption = class _NgSelectOption {
   ngOnDestroy() {
     if (this._select) {
       this._select._optionMap.delete(this.id);
-      this._select._writeValueAfterRender();
+      this._select.writeValue(this._select.value);
     }
   }
   static ɵfac = function NgSelectOption_Factory(__ngFactoryType__) {
@@ -6220,15 +6128,8 @@ var FormArray = class extends AbstractControl {
    * inserted. When false, no events are emitted.
    */
   push(control, options = {}) {
-    if (Array.isArray(control)) {
-      control.forEach((ctrl) => {
-        this.controls.push(ctrl);
-        this._registerControl(ctrl);
-      });
-    } else {
-      this.controls.push(control);
-      this._registerControl(control);
-    }
+    this.controls.push(control);
+    this._registerControl(control);
     this.updateValueAndValidity({
       emitEvent: options.emitEvent
     });
@@ -6799,7 +6700,7 @@ var UntypedFormBuilder = class _UntypedFormBuilder extends FormBuilder {
     }]
   }], null, null);
 })();
-var VERSION = new Version("20.3.1");
+var VERSION = new Version("19.2.15");
 var FormsModule = class _FormsModule {
   /**
    * @description
@@ -6952,7 +6853,7 @@ export {
 
 @angular/forms/fesm2022/forms.mjs:
   (**
-   * @license Angular v20.3.1
+   * @license Angular v19.2.15
    * (c) 2010-2025 Google LLC. https://angular.io/
    * License: MIT
    *)
