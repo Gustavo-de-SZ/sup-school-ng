@@ -14,11 +14,10 @@ export class Navbar {
   ngOnInit() {
     this.items = [
       {
-        label: 'Inicio',
+        label: 'Início',
         icon: 'pi pi-home',
-        routerLink: "/",
+        routerLink: "/"
       },
-     
       {
         label: 'Cadastros',
         icon: 'pi pi-cog',
@@ -44,5 +43,5 @@ export class Navbar {
       },
     ]
   }
-}
 
+}

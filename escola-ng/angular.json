@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "biblioteca-ng": {
+    "sup-school-ng": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -61,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "biblioteca-ng:build:production"
+              "buildTarget": "sup-school-ng:build:production"
             },
             "development": {
-              "buildTarget": "biblioteca-ng:build:development"
+              "buildTarget": "sup-school-ng:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -96,6 +96,6 @@
     }
   },
   "cli": {
-    "analytics": "523b045d-37b2-422d-8fa9-8285a027682e"
+    "analytics": "5fa49efb-52be-419a-829a-781790a102ce"
   }
 }

@@ -1,0 +1,42 @@
+/* ===== Tema Dark Purple - Formulário ===== */
+:host {
+    display: block;
+    background-color: #1a1528;
+    /* Roxo bem escuro */
+    min-height: 100vh;
+    padding: 2rem;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #e5e5f7;
+}
+
+
+
+/* Botão */
+button {
+    padding: 0.75rem 1.5rem;
+    background: #6d28d9;
+    /* Roxo vibrante */
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background: #9333ea;
+    /* Roxo mais claro no hover */
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.botao-cadastro {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+}
